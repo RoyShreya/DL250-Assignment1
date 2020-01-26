@@ -50,7 +50,7 @@ class MyNet(torch.nn.Module):
         return y_pred
 
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
-test_X = np.genfromtxt('test_input.txt')
+test_X = np.genfromtxt(sys.argv[2])
 Xlist=[]
 for sz in range(0,test_X.shape[0]):
      str1=(bin(int(test_X[sz])).replace("0b",""))
