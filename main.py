@@ -63,28 +63,43 @@ inp=np.array(Xlist)
 print(inp.shape)
 inp=np.reshape(inp,(inp.shape[0],inp.shape[1]))#,10)
 #print(inp)
-if torch.cuda.is_available():
-    net=MyNet(10,100,4)  #inp dimension and hidden dimension and output dsimension ie. numof classes here
-    net=net.float()
-    net=net.cuda()
-    net.load_state_dict(torch.load(PATH)['model_state_dict'])  
-    inp=torch.as_tensor(inp, dtype=torch.float)
+
+net=MyNet(10,100,4)  #inp dimension and hidden dimension and output dsimension ie. numof classes here
+net=net.float()
+    #net=net.cuda()
+net.load_state_dict(torch.load(PATH)['model_state_dict'])  
+inp=torch.as_tensor(inp, dtype=torch.float)
     
-    out=net(inp.cuda())
+out=net(inp)#.cuda())
     #print(inp.size())
     #print(out.size())
     
-    label=np.argmax(np.array(out.detach().cpu().numpy().reshape(out.size(0),out.size(1))),axis=1)
-    inpArr=inp.detach().cpu().numpy()
+label=np.argmax(np.array(out.detach().cpu().numpy().reshape(out.size(0),out.size(1))),axis=1)
+inpArr=inp.detach().cpu().numpy()
     #print(label)
-    for i in range(0,label.shape[0]):
-        if label[i]==1:
-            g.write('fizz'+'\n')
-        if label[i]==2:
-            g.write('buzz'+'\n')
-        if label[i]==0:
-            g.write(str(int(test_X[i]))+'\n')
-        if label[i]==3:
-            g.write('fizzbuzz'+'\n')
-            
+for i in range(0,label.shape[0]):
+    if label[i]==1:
+        g.write('fizz'+'\n')
+    if label[i]==2:
+        g.write('buzz'+'\n')
+    if label[i]==0:
+        g.write(str(int(test_X[i]))+'\n')
+    if label[i]==3:
+        g.write('fizzbuzz'+'\n')
+
+f.close()            
+g.close()
+m=open('Software2.txt','r')
+n=open('Software1.txt','r')
+c=m.read().splitlines()
+b=n.read().splitlines()
+acc=0
+
+for i in range(0,len(b)):
+   if c[i]==b[i]:
+       acc=acc+1
+   
+print("Accuracy in test set:")
+print(acc/len(b))
+f.close()
 g.close()
