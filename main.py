@@ -68,7 +68,7 @@ inp=np.reshape(inp,(inp.shape[0],inp.shape[1]))#,10)
 net=MyNet(10,100,100,4)  #inp dimension and hidden dimension and output dsimension ie. numof classes here
 net=net.float()
     #net=net.cuda()
-net.load_state_dict(torch.load(PATH)['model_state_dict'], map_location=torch.device('cpu'))  
+net.load_state_dict(torch.load(PATH)['model_state_dict'])  
 inp=torch.as_tensor(inp, dtype=torch.float)
     
 out=net(inp)#.cuda())
