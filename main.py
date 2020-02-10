@@ -50,7 +50,7 @@ class MyNet(torch.nn.Module):
         y_pred=self.linear3(self.bn2(h2_relu))
         return y_pred
 
-device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+#device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 test_X = np.genfromtxt(sys.argv[2])
 Xlist=[]
 for sz in range(0,test_X.shape[0]):
@@ -68,7 +68,7 @@ inp=np.reshape(inp,(inp.shape[0],inp.shape[1]))#,10)
 net=MyNet(10,100,100,4)  #inp dimension and hidden dimension and output dsimension ie. numof classes here
 net=net.float()
     #net=net.cuda()
-net.load_state_dict(torch.load(PATH)['model_state_dict'])  
+net.load_state_dict(torch.load(PATH, map_location=torch.device('cpu'))['model_state_dict'])  
 inp=torch.as_tensor(inp, dtype=torch.float)
     
 out=net(inp)#.cuda())
